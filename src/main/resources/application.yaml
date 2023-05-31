@@ -1,0 +1,32 @@
+#Server
+server:
+  port: "${PORT:8000}"
+  servlet:
+    context-path: /api
+
+#Spring
+spring:
+  datasource:
+    url: jdbc:mysql://${DB_HOST:host.docker.internal}:3306/${DB_NAME:spring}
+    username: "${DB_USER:root}"
+    password: "${DB_PASSWORD:}"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+#Log
+logging:
+  pattern:
+    console: "%clr(%d{-yyyy-MM-dd'T'HH:mm:ss.SSSXXX}){faint} %clr(-%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-50.50logger{49}){cyan} %clr(:){faint} %m%n-%wEx"
+    file: "%d{-yyyy-MM-dd'T'HH:mm:ss.SSSXXX} -%5p ${PID:- } --- [%t] %-50.50logger{49} : %m%n-%wEx"
+
+wework:
+  storage: "${STORAGE:temp/assets/}"
+tencent-cloud:
+  id: "${TENCENT_CLOUD_ID:}"
+  key: "${TENCENT_CLOUD_KEY:}"
+  bucket: "${TENCENT_CLOUD_BUCKET:}"
+  region: "${TENCENT_CLOUD_REGION:}"
