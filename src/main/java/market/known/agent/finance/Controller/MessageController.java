@@ -49,7 +49,7 @@ public class MessageController {
         try {
             messageService.init(corpID);
 
-            List<JSONObject> messagesList = messageService.getMessages(from, 100, null, null, 5000);
+            List<JSONObject> messagesList = messageService.getMessages(from, 100, "", "", 5000);
 
             return ActionResult.defaultOk(messagesList);
 
