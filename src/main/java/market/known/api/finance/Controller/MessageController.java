@@ -32,7 +32,7 @@ public class MessageController {
                     object.get("financePrivateKey", String.class)
             );
 
-            List<JSONObject> messagesList = messageService.getMessages(seq, 50, "", "", 5000);
+            List<JSONObject> messagesList = messageService.getMessages(seq, 50);
 
             return ActionResult.defaultOk(messagesList);
 

@@ -11,7 +11,7 @@ public interface MessageService {
 
     Boolean destroySdk();
 
-    public List<JSONObject> getMessages(int seq, int limit, String proxy, String passwd, int timeout) throws Exception;
+    public List<JSONObject> getMessages(int seq, int limit) throws Exception;
 
     public String getMediaData(String sdkFileId) throws FinanceSDKException;
 

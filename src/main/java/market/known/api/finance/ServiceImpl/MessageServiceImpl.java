@@ -64,14 +64,14 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<JSONObject> getMessages(int seq, int limit, String proxy, String passwd, int timeout) throws Exception {
+    public List<JSONObject> getMessages(int seq, int limit) throws Exception {
 
         if (ObjectUtil.isNull(financeSDK)) {
             return null;
         }
 
         long slice = Finance.NewSlice();
-        int ret = Finance.GetChatData(financeSDK, seq, limit, proxy, passwd, timeout, slice);
+        int ret = Finance.GetChatData(financeSDK, seq, limit, "", "", 30, slice);
         if (ret != 0) {
             Finance.FreeSlice(slice);
             throw new FinanceSDKException(ret);
@@ -158,7 +158,7 @@ public class MessageServiceImpl implements MessageService {
 
         while (true) {
             long media_data = Finance.NewMediaData();
-            int ret = Finance.GetMediaData(financeSDK, indexbuf, sdkFileId, null, null, 5000, media_data);
+            int ret = Finance.GetMediaData(financeSDK, indexbuf, sdkFileId, "", "", 30, media_data);
             if (ret != 0) {
                 Finance.FreeMediaData(media_data);
                 throw new FinanceSDKException(ret);
