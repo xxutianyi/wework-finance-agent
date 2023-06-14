@@ -2,7 +2,9 @@ package market.known.api.finance.Controller;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import market.known.api.finance.Emun.ARShowType;
 import market.known.api.finance.Entity.ActionResult;
+import market.known.api.finance.Exception.FinanceSDKException;
 import market.known.api.finance.Service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +21,7 @@ public class MessageController {
     MessageService messageService;
 
     @PostMapping("/messages/{seq}")
-    public ActionResult<List<JSONObject>> getMessages(@RequestAttribute String body, @PathVariable Integer seq) {
+    public ActionResult<?> getMessages(@RequestAttribute String body, @PathVariable Integer seq) {
 
         JSONObject object = JSONUtil.parseObj(body);
 
@@ -35,11 +37,8 @@ public class MessageController {
             return ActionResult.defaultOk(messagesList);
 
         } catch (Exception e) {
-
-            e.printStackTrace();
+            return ActionResult.defaultFailed("5000", e.getMessage(), ARShowType.MESSAGE_ERROR);
         }
-
-        return null;
     }
 
     @PostMapping("/media/{id}")
@@ -57,10 +56,8 @@ public class MessageController {
             return ActionResult.defaultOk(filename);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            return ActionResult.defaultFailed("5000", e.getMessage(), ARShowType.MESSAGE_ERROR);
         }
-
-        return null;
     }
 
 }
