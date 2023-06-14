@@ -1,4 +1,4 @@
-package market.known.agent.finance.ServiceImpl;
+package market.known.api.finance.ServiceImpl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONArray;
@@ -12,13 +12,11 @@ import com.qcloud.cos.http.HttpProtocol;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.region.Region;
 import com.tencent.wework.Finance;
-import market.known.agent.finance.Repository.CredentialRepository;
-import market.known.agent.finance.Entity.Credential;
-import market.known.agent.finance.Exception.FinanceSDKException;
-import market.known.agent.finance.Service.MessageService;
-import market.known.agent.finance.Utils.FileTypeHelper;
+import market.known.api.finance.Entity.Credential;
+import market.known.api.finance.Exception.FinanceSDKException;
+import market.known.api.finance.Service.MessageService;
+import market.known.api.finance.Utils.FileTypeHelper;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -27,45 +25,21 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
-import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class MessageServiceImpl implements MessageService {
-
-    @Autowired
-    CredentialRepository credentialRepository;
-
     private Credential credential;
 
     private Long financeSDK;
 
     @Override
-    public void setCredential(String corpId, String secret, String rsaPrivateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        Credential credential = new Credential(corpId, secret, rsaPrivateKey);
-        credentialRepository.save(credential);
-    }
+    public void init(String corpId, String financeSecret, String financePrivateKey) throws Exception {
 
-
-    @Override
-    public void deleteCredential(String corpId) {
-        credentialRepository.deleteCredentialByCorpId(corpId);
-    }
-
-    @Override
-    public void init(String corpId) throws Exception {
-
-        Credential credential = credentialRepository.findCredentialByCorpId(corpId);
-
-        if (credential == null) {
-            throw new Exception("Credential Not Found");
-        }
-
-        this.credential = credential;
+        credential = new Credential(corpId, financeSecret, financePrivateKey);
 
         initFinance();
     }
@@ -80,7 +54,7 @@ public class MessageServiceImpl implements MessageService {
             throw new FinanceSDKException(ret);
         }
 
-        this.financeSDK = sdk;
+        financeSDK = sdk;
     }
 
     @Override

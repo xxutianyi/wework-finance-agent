@@ -1,4 +1,4 @@
-package market.known.agent.finance.Emun;
+package market.known.api.finance.Emun;
 
 public enum ARShowType {
 

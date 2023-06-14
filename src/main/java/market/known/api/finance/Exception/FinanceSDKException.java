@@ -1,4 +1,4 @@
-package market.known.agent.finance.Exception;
+package market.known.api.finance.Exception;
 
 import java.util.Map;
 

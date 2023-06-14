@@ -1,4 +1,4 @@
-package market.known.agent.finance.Entity;
+package market.known.api.finance.Entity;
 
 import lombok.Data;
 
