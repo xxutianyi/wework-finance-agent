@@ -1,0 +1,10 @@
+version: "3"
+services:
+  app:
+    restart: "always"
+    container_name: "api-wework-finance"
+    image: "xxutianyi/api-wework-finance"
+    ports:
+      - "${APP_PORT:-8900}:8900"
+    env_file:
+      - ./.env

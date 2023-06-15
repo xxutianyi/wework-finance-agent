@@ -7,10 +7,7 @@ import market.known.api.finance.Entity.ActionResult;
 import market.known.api.finance.Exception.FinanceSDKException;
 import market.known.api.finance.Service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,7 +18,7 @@ public class MessageController {
     MessageService messageService;
 
     @PostMapping("/messages/{seq}")
-    public ActionResult<?> getMessages(@RequestAttribute String body, @PathVariable Integer seq) {
+    public ActionResult<?> getMessages(@RequestAttribute String body, @PathVariable Integer seq, @RequestParam(defaultValue = "50") String limit) {
 
         JSONObject object = JSONUtil.parseObj(body);
 
@@ -32,7 +29,7 @@ public class MessageController {
                     object.get("financePrivateKey", String.class)
             );
 
-            List<JSONObject> messagesList = messageService.getMessages(seq, 50);
+            List<JSONObject> messagesList = messageService.getMessages(seq, Integer.parseInt(limit));
 
             return ActionResult.defaultOk(messagesList);
 
